@@ -128,10 +128,6 @@ class Fireball extends Enemy{
         super(game);
         this.spriteWidth = 32;
         this.spriteHeight = 24;
-        let frameX = 0;
-        let frameY = 0;
-        let gameFrame = 0;
-        const staggerFrames = 5;
         this.width = 32;
         this.height = 24;
         this.position = {
@@ -208,7 +204,6 @@ const keys = {
 }
 // animate and refresh frames
 let lastTime = 1;
-
 function animate(timeStamp){
     // frames update
     c.clearRect(0, 0, canvas.width, canvas.height);
@@ -278,7 +273,7 @@ function animate(timeStamp){
  
  
    
-    gameFrame++
+ 
 }
  
  
@@ -324,7 +319,3 @@ addEventListener("keyup", (event) => {
             break;
     }
 })
- 
- 
- 
-
