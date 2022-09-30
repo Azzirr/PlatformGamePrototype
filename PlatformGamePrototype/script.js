@@ -6,24 +6,30 @@ canvas.height = 576;
  
 const gravity = 0.5;
 // frames for sprite sheets
+// I should put variables into blocks!
 let frameX = 0;
 let frameY = 0;
 let frameX1 = 0;
+let frameY1 = 0;
+let frameZ = 4;
 let gameFrame = 0;
 const staggerFrames = 5;
 
 const player = new Player()
 const platforms =
-                [new Platform({x: 0, y: 532, width: 1000, height: 40}), // Platform 1 - ground
-                 new Platform({x: 1050, y: 400, width: 250, height: 20}), // Platform 2 - jump
-                 new Platform({x: 1290, y: 500, width: 250, height: 20}), // Platform 3 - jump
-                 new Platform({x: 1580, y: 532, width: 600, height: 40}), // Platform 4 - ground
+                [new Platform({x: 0, y: 532, width: 600, height: 40, image: document.querySelector('#platform1')}), // Platform 1 - ground
+                 new Platform({x: 750, y: 400, width: 250, height: 30, image: document.querySelector('#platform2')}), // Platform 2 - jump
+                 new Platform({x: 1200, y: 500, width: 250, height: 30, image: document.querySelector('#platform2')}), // Platform 3 - jump
+                 new Platform({x: 1580, y: 532, width: 600, height: 40, image: document.querySelector('#platform1')}), // Platform 4 - ground
                 ]
 const testBox = new TestBox();
 const game = new Game();
 const enemy = new Enemy();
 const fireball = new Fireball();
-
+const genericObjects = [new GenericObject({x: 0, y: 0, image: document.querySelector('#background')}),
+                        new GenericObject({x: 300, y: 200, image: document.querySelector('#genericObject1')})];
+const cloneGenericObjects = genericObjects.slice();
+cloneGenericObjects.splice(0, 1);
 let lastKey;
 
 const keys = {
@@ -34,6 +40,9 @@ const keys = {
         pressed: false
     },
     w: {
+        pressed: false
+    },
+    j: {
         pressed: false
     }
 }
@@ -49,7 +58,7 @@ addEventListener("keydown", (event) => {
     switch (event.key){
         case 'd':
             keys.d.pressed = true;
-            lastKey = 'd'
+            lastKey = 'd';
             break;
         case 'a':
             keys.a.pressed = true;
@@ -58,10 +67,10 @@ addEventListener("keydown", (event) => {
         case 'w':
             keys.w.pressed = true;
             break;
-        case ' ':
+        case 'j':
+            keys.j.pressed = true;
             player.attack();
             break;
-       
     }
 })
  
@@ -78,6 +87,9 @@ addEventListener("keyup", (event) => {
             break;
         case 'w':
             keys.w.pressed = false;
+            break;
+        case 'j':
+            keys.j.pressed = false;
             break;
     }
 })

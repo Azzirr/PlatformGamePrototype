@@ -7,7 +7,9 @@ function animate(timeStamp){
     gameFrame++; //counting frames for animating objects
     window.requestAnimationFrame(animate);
     // drawing player
-    player.update();
+    genericObjects.forEach(genericObject =>{
+        genericObject.draw();
+    })
     // drawing platforms
     platforms.forEach(platform =>{
         platform.draw();
@@ -15,6 +17,9 @@ function animate(timeStamp){
     testBox.draw();
     game.update(deltaTime);
     fireball.draw();
+    player.update();
+
+    
  
     // player movement
     player.velocity.x = 0;
@@ -26,20 +31,42 @@ function animate(timeStamp){
         player.velocity.x = 0
     // background scroll
     if (keys.a.pressed){
-            platforms.forEach(platform =>{
-                platform.position.x += 5
+        platforms.forEach(platform =>{
+            platform.position.x += 5
         })
-        }
-        else if(keys.d.pressed){
-            platforms.forEach(platform =>{
-                platform.position.x -= 5
-            })
-        }
+        cloneGenericObjects.forEach(genericObject =>{
+              genericObject.position.x +=3
+         })
+
+    } else if(keys.d.pressed){
+        platforms.forEach(platform =>{
+            platform.position.x -= 5
+        })
+        cloneGenericObjects.forEach(genericObject =>{
+            genericObject.position.x -=3
+       })
+    }
     }
     // jump
     if(keys.w.pressed){
         player.velocity.y = -8
     }
+
+    // Player move switcher
+    if(keys.d.pressed){
+        frameY1 = 1;
+        player.offset.x = 60;
+    } else if(keys.a.pressed){
+        frameY1 = 11;
+        player.offset.x = 30;
+    } else if(lastKey == 'a'){
+        frameY1 = 10;
+    }
+    else{
+        frameZ = 4;
+        frameY1 = 0;
+    }
+
     // platforms collision detection !!! trzeba zrobić kolizję dolnej platformy
     platforms.forEach(platform =>{
         if(player.position.y + player.height <= platform.position.y && player.position.y + player.height + player.velocity.y >= platform.position.y && player.position.x + player.width >= platform.position.x && player.position.x <= platform.position.x + platform.width && player.position.x <= platform.position.y + platform.height){
@@ -60,7 +87,7 @@ function animate(timeStamp){
             console.log('Attacked from left!')
     }
    
- 
+    
  
     // death conditions
     // condition 1 - death by fall down
@@ -68,4 +95,5 @@ function animate(timeStamp){
 
         console.log('You lose!');
     }
+    console.log(genericObjects)
 }

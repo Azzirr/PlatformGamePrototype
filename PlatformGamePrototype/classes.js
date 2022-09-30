@@ -1,6 +1,6 @@
 // Player and AttackBox class
 class Player{
-    constructor(color){
+    constructor(color, offset = {x: 0, y: 0}){
         this.position = {
             x: 100,
             y: 100,
@@ -20,6 +20,11 @@ class Player{
         this.isAttacking;
         this.health = 100;
         this.image = document.querySelector('#player');
+        this.scale = 2;
+        this.offset = {
+            x: 60,
+            y: 33
+        }
     }
     // player draw
     draw(){
@@ -28,10 +33,10 @@ class Player{
         c.fillRect(this.position.x, this.position.y, this.width, this.height)
         
 
-        // attack box
+        // attack box => bug with attack from right
         if(this.isAttacking && lastKey === 'd'){
             c.fillStyle = 'pink'
-            c.fillRect(this.attackBox.position.x, this.attackBox.position.y, this.attackBox.width, this.attackBox.height)
+            c.fillRect(this.attackBox.position.x + 50, this.attackBox.position.y, this.attackBox.width, this.attackBox.height)
         }else if(this.isAttacking && lastKey ==='a'){
             c.fillStyle = 'pink'
             c.fillRect(this.attackBox.position.x - 50, this.attackBox.position.y, this.attackBox.width, this.attackBox.height)
@@ -43,7 +48,7 @@ class Player{
         this.draw();
         this.position.x = this.position.x + this.velocity.x
         this.position.y = this.position.y + this.velocity.y
-        c.drawImage(this.image, frameX1 * this.width, 0, this.width, this.height, this.position.x, this.position.y, this.width, this.height)
+        c.drawImage(this.image, frameX1 * this.width, frameY1 * this.height, this.width, this.height, this.position.x - this.offset.x, this.position.y - this.offset.y, this.width * this.scale, this.height * this.scale)
 
         // gravity
         if (this.position.y + this.height + this.velocity.y <= canvas.height){
@@ -51,7 +56,7 @@ class Player{
         }
 
         if(gameFrame % staggerFrames == 0){
-            if (frameX1 < 4){
+            if (frameX1 < frameZ){
                 frameX1++
             }else{
                 frameX1 = 0;
@@ -114,7 +119,7 @@ class Enemy {
         } else if(keys.d.pressed && player.position.x === 400){
                 this.position.x -= 5
         }
-        this.position.x = this.position.x - 5;
+        this.position.x = this.position.x - 6.5;
         if (this.position.x < 0 - this.width){
             this.markedForDeletion = true;
         }
@@ -152,11 +157,12 @@ class Fireball extends Enemy{
 }
  
 class Platform{
-    constructor({x, y, width, height}){
+    constructor({x, y, width, height, image}){
         this.position = {
             x, // x is calling x from object (constructor({x,y}))
             y
         },
+        this.image = image
         this.width = width; // szerokość
         this.height = height; // wysokość
     }
@@ -164,8 +170,26 @@ class Platform{
         draw(){
             c.fillStyle = 'yellow'
             c.fillRect(this.position.x, this.position.y, this.width, this.height)
+            c.drawImage(this.image, this.position.x, this.position.y)
         }
 }
+
+class GenericObject{
+    constructor({x, y, width, height, image}){
+        this.position = {
+            x, // x is calling x from object (constructor({x,y}))
+            y
+        },
+        this.image = image
+        this.width = image.width; // szerokość
+        this.height = image.height; // wysokość
+    }
+// drawing yellow platforms
+        draw(){
+            c.drawImage(this.image, this.position.x, this.position.y)
+        }
+}
+
 
 
 
