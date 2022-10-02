@@ -1,6 +1,6 @@
 // Player and AttackBox class
 class Player{
-    constructor(color, offset = {x: 0, y: 0}){
+    constructor(color, offset = {x: 0, y: 0}, frameX = 0, frameY = 0){
         this.position = {
             x: 100,
             y: 100,
@@ -25,6 +25,9 @@ class Player{
             x: 60,
             y: 33
         }
+        this.frameX = frameX;
+        this.frameY = frameY;
+        
     }
     // player draw
     draw(){
@@ -48,18 +51,17 @@ class Player{
         this.draw();
         this.position.x = this.position.x + this.velocity.x
         this.position.y = this.position.y + this.velocity.y
-        c.drawImage(this.image, frameX1 * this.width, frameY1 * this.height, this.width, this.height, this.position.x - this.offset.x, this.position.y - this.offset.y, this.width * this.scale, this.height * this.scale)
+        c.drawImage(this.image, this.frameX * this.width, this.frameY * this.height, this.width, this.height, this.position.x - this.offset.x, this.position.y - this.offset.y, this.width * this.scale, this.height * this.scale)
 
         // gravity
         if (this.position.y + this.height + this.velocity.y <= canvas.height){
             this.velocity.y = this.velocity.y + gravity
         }
-
         if(gameFrame % staggerFrames == 0){
-            if (frameX1 < frameZ){
-                frameX1++
+            if (this.frameX < frameZ){
+                this.frameX++
             }else{
-                frameX1 = 0;
+                this.frameX = 0;
             }
         }
     }
@@ -127,7 +129,7 @@ class Enemy {
 }
 
 class Fireball extends Enemy{
-    constructor(game){
+    constructor(game, frameX = 0){
         super(game);
         this.width = 31;
         this.height = 24;
@@ -141,14 +143,15 @@ class Fireball extends Enemy{
             height: 60
         }
         this.image = document.querySelector('#fireball');
+        this.frameX = frameX;
     }
     draw(){
-        c.drawImage(this.image, frameX * this.width, 0, this.width, this.height, this.position.x, this.position.y, this.width * (this.scale * 2), this.height * (this.scale * 2.5))
+        c.drawImage(this.image, this.frameX * this.width, 0, this.width, this.height, this.position.x, this.position.y, this.width * (this.scale * 2), this.height * (this.scale * 2.5))
         if(gameFrame % staggerFrames == 0){
-            if (frameX < 6){
-                frameX++
+            if (this.frameX < 6){
+                this.frameX++
             }else{
-                frameX = 0;
+                this.frameX = 0;
             }
         }
         // change values of height and attackbox.position.y!!!
