@@ -54,17 +54,17 @@ function animate(timeStamp){
 
     // Player move switcher
     if(keys.d.pressed){
-        frameY1 = 1;
+        player.frameY = 1;
         player.offset.x = 60;
     } else if(keys.a.pressed){
-        frameY1 = 11;
+        player.frameY = 11;
         player.offset.x = 30;
     } else if(lastKey == 'a'){
-        frameY1 = 10;
+        player.frameY = 10;
     }
     else{
         frameZ = 4;
-        frameY1 = 0;
+        player.frameY = 0;
     }
 
     // platforms collision detection !!! trzeba zrobić kolizję dolnej platformy
@@ -95,5 +95,4 @@ function animate(timeStamp){
 
         console.log('You lose!');
     }
-    console.log(genericObjects)
 }
