@@ -6,12 +6,8 @@ canvas.height = 576;
  
 const gravity = 0.5;
 // frames for sprite sheets
-// I should put variables into blocks!
-let frameX = 0;
-let frameY = 0;
-let frameX1 = 0;
-let frameY1 = 0;
-let frameZ = 4;
+// I should put local variables!
+let frameZ = 4; //max frames in sprite sheet
 let gameFrame = 0;
 const staggerFrames = 5;
 
