@@ -14,6 +14,10 @@ function animate(timeStamp){
     platforms.forEach(platform =>{
         platform.draw();
     })
+    // drawing NPCs
+    npcs.forEach(npc => {
+        npc.update();
+    })
     testBox.draw();
     game.update(deltaTime);
     fireball.draw();
@@ -36,7 +40,10 @@ function animate(timeStamp){
         })
         cloneGenericObjects.forEach(genericObject =>{
               genericObject.position.x +=3
-         })
+        })
+        npcs.forEach(npc => {
+            npc.position.x +=5
+        })
 
     } else if(keys.d.pressed){
         platforms.forEach(platform =>{
@@ -44,28 +51,29 @@ function animate(timeStamp){
         })
         cloneGenericObjects.forEach(genericObject =>{
             genericObject.position.x -=3
-       })
+        })
+        npcs.forEach(npc => {
+            npc.position.x -=5
+        })
     }
-    }
-    // jump
-    if(keys.w.pressed){
-        player.velocity.y = -8
     }
 
-    // Player move switcher
-    if(keys.d.pressed){
-        player.frameY = 1;
-        player.offset.x = 60;
-    } else if(keys.a.pressed){
-        player.frameY = 11;
-        player.offset.x = 30;
-    } else if(lastKey == 'a'){
-        player.frameY = 10;
-    }
-    else{
-        frameZ = 4;
-        player.frameY = 0;
-    }
+    // Player move sprite switcher
+
+        if(keys.d.pressed){
+            player.frameY = 1;
+            player.offset.x = 60;
+        } else if(keys.a.pressed){
+            player.frameY = 11;
+            player.offset.x = 30;
+        } else if(lastKey == 'a'){
+            player.frameY = 10;
+        }
+        else{
+            player.frameY = 0;
+            player.frameZ = 4;
+        }
+
 
     // platforms collision detection !!! trzeba zrobić kolizję dolnej platformy
     platforms.forEach(platform =>{
