@@ -5,13 +5,17 @@ canvas.width = 1024;
 canvas.height = 576;
  
 const gravity = 0.5;
+let lastKey;
+let lastTime = 1;
+
 // frames for sprite sheets
 // I should put local variables!
-let frameZ = 4; //max frames in sprite sheet
+// frameZ is a max frames in sprite sheet
 let gameFrame = 0;
 const staggerFrames = 5;
 
 const player = new Player()
+const npcs = [new NPC({x: 1790, y: 370, width: 100, height: 100, image: document.querySelector('#npc1')})]
 const platforms =
                 [new Platform({x: 0, y: 532, width: 600, height: 40, image: document.querySelector('#platform1')}), // Platform 1 - ground
                  new Platform({x: 750, y: 400, width: 250, height: 30, image: document.querySelector('#platform2')}), // Platform 2 - jump
@@ -26,7 +30,6 @@ const genericObjects = [new GenericObject({x: 0, y: 0, image: document.querySele
                         new GenericObject({x: 300, y: 200, image: document.querySelector('#genericObject1')})];
 const cloneGenericObjects = genericObjects.slice();
 cloneGenericObjects.splice(0, 1);
-let lastKey;
 
 const keys = {
     a: {
@@ -43,7 +46,6 @@ const keys = {
     }
 }
 // animate and refresh frames
-let lastTime = 1;
   
 animate();
  
@@ -61,7 +63,7 @@ addEventListener("keydown", (event) => {
             lastKey = 'a'
             break;
         case 'w':
-            keys.w.pressed = true;
+            if(player.velocity.y === 0) player.velocity.y = -14
             break;
         case 'j':
             keys.j.pressed = true;
