@@ -1,6 +1,6 @@
 // Player and AttackBox class
 class Player{
-    constructor(color, offset = {x: 0, y: 0}, frameX = 0, frameY = 0){
+    constructor(color, offset = {x: 0, y: 0}, frameX = 0, frameY = 0, frameZ = 4){
         this.position = {
             x: 100,
             y: 100,
@@ -27,14 +27,14 @@ class Player{
         }
         this.frameX = frameX;
         this.frameY = frameY;
+        this.frameZ = frameZ;
         
     }
     // player draw
     draw(){
         // player
-        c.fillStyle = 'green'
+        c.fillStyle  = `rgb(0, 128, 0, 0.4)`
         c.fillRect(this.position.x, this.position.y, this.width, this.height)
-        
 
         // attack box => bug with attack from right
         if(this.isAttacking && lastKey === 'd'){
@@ -58,7 +58,7 @@ class Player{
             this.velocity.y = this.velocity.y + gravity
         }
         if(gameFrame % staggerFrames == 0){
-            if (this.frameX < frameZ){
+            if (this.frameX < this.frameZ){
                 this.frameX++
             }else{
                 this.frameX = 0;
@@ -73,6 +73,44 @@ class Player{
         }, 100)
     }
 };
+
+class NPC{
+    constructor({x, y, width, height, image, frameX = 0, frameY = 0, frameZ = 9}){
+        this.position = {
+            x,
+            y
+        },
+        this.width = 162 //szerokość
+        this.height = 162 // wysokość
+        this.image = image;
+        this.scale = 2.5;
+        this.frameX = frameX;
+        this.frameY = frameY;
+        this.frameZ = frameZ;
+        this.offset = {x: -25, y: -50}
+    }
+    
+    // draw(){
+    //     c.fillStyle  = 'white'
+    //     c.fillRect(this.position.x, this.position.y, this.width, this.height)
+    // }
+ 
+    update(){
+   //     this.draw();
+        c.drawImage(this.image, this.frameX * this.width, this.frameY * this.height, this.width, this.height, this.position.x - this.offset.x, this.position.y - this.offset.y, this.width * this.scale, this.height * this.scale)
+        c.font = '14px sans-serif'
+        c.fillText('Janusz von Bimbersztajn', this.position.x + 5, this.position.y + 35)
+
+        if(gameFrame % staggerFrames == 0){
+            if (this.frameX < this.frameZ){
+                this.frameX++
+            }else{
+                this.frameX = 0;
+            }
+        }
+    }
+}
+
 // class for enemy properties
 class Game{
     constructor(){
@@ -88,8 +126,6 @@ class Game{
         if (this.enemyTimer > this.enemyInterval){
             this.#addNewEnemy();
             this.enemyTimer = 0;
-            console.log(this.enemies)
-
         } else {
             this.enemyTimer++;
         }
@@ -106,7 +142,6 @@ class Game{
 class Enemy {
     constructor(game, scale = 2){
         this.game = game;
-        console.log(this.game)
         this.position = {
             x: canvas.width,
             y: Math.random() * canvas.height,
