@@ -23,7 +23,6 @@ function animate(timeStamp){
     fireball.draw();
     player.update();
 
-    
  
     // player movement
     player.velocity.x = 0;
@@ -59,20 +58,38 @@ function animate(timeStamp){
     }
 
     // Player move sprite switcher
+    let x = 0;
+        if(x === 0) {
+            if(keys.d.pressed){
+                player.frameY = 1;
+                player.offset.x = 60;
+            } else if(keys.a.pressed){
+                player.frameY = 11;
+                player.offset.x = 30;
+            } else if(lastKey == 'a'){
+                player.frameY = 10;
+                player.frameZ = 4;
 
-        if(keys.d.pressed){
-            player.frameY = 1;
-            player.offset.x = 60;
-        } else if(keys.a.pressed){
-            player.frameY = 11;
-            player.offset.x = 30;
-        } else if(lastKey == 'a'){
-            player.frameY = 10;
+            }
+            else{
+                player.frameY = 0;
+                player.frameZ = 4;
+            }
         }
-        else{
-            player.frameY = 0;
-            player.frameZ = 4;
+        
+        if(keys.j.pressed){
+            for(x = 0; x < 8; x++){
+                player.frameY = 3;
+                player.frameZ = 8;
+                console.log(x)
+                break;
+            }
+ 
         }
+
+
+
+
 
 
     // platforms collision detection !!! trzeba zrobić kolizję dolnej platformy
@@ -104,3 +121,4 @@ function animate(timeStamp){
         console.log('You lose!');
     }
 }
+
