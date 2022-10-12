@@ -112,88 +112,7 @@ class NPC{
 }
 
 // class for enemy properties
-class Game{
-    constructor(){
-        this.enemies = [];
-        this.enemyInterval = 400 // time that declares how much time program need to push new enemy
-        this.enemyTimer = 0; // counts the time for enemyInterval
-        this.#addNewEnemy();
-    }
-    draw(){
-        this.enemies.forEach(object => object.draw())
-    }
-    update(){
-        if (this.enemyTimer > this.enemyInterval){
-            this.#addNewEnemy();
-            this.enemyTimer = 0;
-        } else {
-            this.enemyTimer++;
-        }
-        this.draw();
-        this.enemies.forEach(object => object.update())
-        this.enemies = this.enemies.filter(object => !object.markedForDeletion)
-    }
-    
-    #addNewEnemy(){
-        this.enemies.push(new Fireball(this));
-    }
-}
-// class with Enemies
-class Enemy {
-    constructor(game, scale = 2){
-        this.game = game;
-        this.position = {
-            x: canvas.width,
-            y: Math.random() * canvas.height,
-        }
-        this.markedForDeletion = false; // if this is true an object get to fuck out
-        this.scale = scale
 
-    } 
-    update(){
-        if (keys.a.pressed && player.position.x === 100){
-                this.position.x += 5
-        } else if(keys.d.pressed && player.position.x === 400){
-                this.position.x -= 5
-        }
-        this.position.x = this.position.x - 6.5;
-        if (this.position.x < 0 - this.width){
-            this.markedForDeletion = true;
-        }
-    };
-}
-
-class Fireball extends Enemy{
-    constructor(game, frameX = 0){
-        super(game);
-        this.width = 31;
-        this.height = 24;
-        this.position = {
-            x: canvas.width,
-            y: Math.random() * canvas.height,
-        }
-        this.attackBox = {
-            position: this.position,
-            width: 100,
-            height: 60
-        }
-        this.image = document.querySelector('#fireball');
-        this.frameX = frameX;
-    }
-    draw(){
-        c.drawImage(this.image, this.frameX * this.width, 0, this.width, this.height, this.position.x, this.position.y, this.width * (this.scale * 2), this.height * (this.scale * 2.5))
-        if(gameFrame % staggerFrames == 0){
-            if (this.frameX < 6){
-                this.frameX++
-            }else{
-                this.frameX = 0;
-            }
-        }
-        // change values of height and attackbox.position.y!!!
-        //c.fillRect(this.attackBox.position.x, this.attackBox.position.y + 30, this.attackBox.width, this.attackBox.height)
-    }
-}
- 
 class Platform{
     constructor({x, y, width, height, image}){
         this.position = {
@@ -228,10 +147,85 @@ class GenericObject{
         }
 }
 
+class Fireball {
+    constructor(){
+        this.spriteWidth = 271;
+        this.spriteHeight = 194;
+        this.width = this.spriteWidth;
+        this.height = this.spriteHeight;
+        this.x = canvas.width;
+        this.y = Math.random() * (canvas.height - this.height);
+        this.directionX = Math.random() * 5 + 3;
+        this.directionY = Math.random() * 5 - 2.5;
+        this.image = new Image();
+        this.image.src = //;
+        this.frame = 0;
+        this.maxFrame = 4;
+        this.hasTrail = Math.random() > 0.7;
+    }
+    update(deltatime){
+        if (this.y < 0 || this.y > canvas.height - this.height){
+            this.directionY = this.directionY * -1;
+        }
+        this.x -= this.directionX;
+        this.y += this.directionY;
+        if (this.x < 0 - this.width) this.markedForDeletion = true;
+        this.timeSinceFlap += deltatime;
+        if (this.timeSinceFlap > this.flapInterval){
+            if (this.frame > this.maxFrame) this.frame = 0;
+            else this.frame++;
+            this.timeSinceFlap = 0;
+            if (this.hasTrail){
+                for (let i = 0; i < 5; i++){
+                    particles.push(new Particle(this.x, this.y, this.width, this.color));
+                }
+            }
+        }
+    }
+    draw(){
+        c.drawImage(this.image, this.frame * this.spriteWidth, 0, this.spriteWidth, this.spriteHeight, this.x, this.y, this.width, this.height);
+    }
+}
 
-
-
-
+class BetterFireball {
+    constructor(){
+        this.spriteWidth = 271;
+        this.spriteHeight = 194;
+        this.width = this.spriteWidth;
+        this.height = this.spriteHeight;
+        this.x = canvas.width;
+        this.y = Math.random() * (canvas.height - this.height);
+        this.directionX = Math.random() * 5 + 3;
+        this.directionY = Math.random() * 5 - 2.5;
+        this.image = new Image();
+        this.image.src = //;
+        this.frame = 0;
+        this.maxFrame = 4;
+        this.hasTrail = Math.random() > 0.7;
+    }
+    update(deltatime){
+        if (this.y < 0 || this.y > canvas.height - this.height){
+            this.directionY = this.directionY * -1;
+        }
+        this.x -= this.directionX;
+        this.y += this.directionY;
+        if (this.x < 0 - this.width) this.markedForDeletion = true;
+        this.timeSinceFlap += deltatime;
+        if (this.timeSinceFlap > this.flapInterval){
+            if (this.frame > this.maxFrame) this.frame = 0;
+            else this.frame++;
+            this.timeSinceFlap = 0;
+            if (this.hasTrail){
+                for (let i = 0; i < 5; i++){
+                    particles.push(new Particle(this.x, this.y, this.width, this.color));
+                }
+            }
+        }
+    }
+    draw(){
+        c.drawImage(this.image, this.frame * this.spriteWidth, 0, this.spriteWidth, this.spriteHeight, this.x, this.y, this.width, this.height);
+    }
+}
 
 
 
