@@ -14,7 +14,8 @@ let lastTime = 1;
 let gameFrame = 0;
 const staggerFrames = 5;
 
-const player = new Player()
+const player = new Player();
+const fireball = new Fireball();
 const npcs = [new NPC({x: 1790, y: 370, width: 100, height: 100, image: document.querySelector('#npc1')})]
 const platforms =
                 [new Platform({x: 0, y: 532, width: 600, height: 40, image: document.querySelector('#platform1')}), // Platform 1 - ground
@@ -23,9 +24,6 @@ const platforms =
                  new Platform({x: 1580, y: 532, width: 600, height: 40, image: document.querySelector('#platform1')}), // Platform 4 - ground
                 ]
 const testBox = new TestBox();
-const game = new Game();
-const enemy = new Enemy();
-const fireball = new Fireball();
 const genericObjects = [new GenericObject({x: 0, y: 0, image: document.querySelector('#background')}),
                         new GenericObject({x: 300, y: 200, image: document.querySelector('#genericObject1')})];
 const cloneGenericObjects = genericObjects.slice();

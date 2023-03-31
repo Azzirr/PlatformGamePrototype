@@ -18,9 +18,9 @@ function animate(timeStamp){
     npcs.forEach(npc => {
         npc.update();
     })
-    testBox.draw();
-    game.update(deltaTime);
+    // testBox.draw();
     fireball.draw();
+    fireball.update();
     player.update();
 
  
@@ -112,8 +112,14 @@ function animate(timeStamp){
             console.log('Attacked from left!')
     }
    
+    // fireball attack colision
     
- 
+    if(fireball.x < player.position.x + player.width && fireball.x + fireball.width > player.position.x && fireball.y < player.position.y + player.height && fireball.y + fireball.height > player.position.y){
+            console.log('You get a hit!')
+    } 
+    // console.log(fireball.attackBox)
+
+
     // death conditions
     // condition 1 - death by fall down
     if(player.position.y > canvas.height){
