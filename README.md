@@ -1,5 +1,8 @@
 # PlatformGamePrototype
 
+## Live demo
+https://azzirr.github.io/PlatformGamePrototype/
+
 ## Work in progress
 This project was my first bigger project, only for JavaScript practise. I was doing first steps in working with function, classes, sprite animation sheets and more.
 I learned a lot, but today I think, that I should rewrite this project from beggining if I want to continue work.
