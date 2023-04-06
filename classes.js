@@ -33,8 +33,8 @@ class Player{
     // player draw
     draw(){
         // player
-        c.fillStyle  = `rgb(0, 128, 0, 0.4)`
-        c.fillRect(this.position.x, this.position.y, this.width, this.height)
+        // c.fillStyle  = `rgb(0, 128, 0, 0.4)`
+        // c.fillRect(this.position.x, this.position.y, this.width, this.height)
 
         // attack box => bug with attack from right
         if(this.isAttacking && lastKey === 'd'){
